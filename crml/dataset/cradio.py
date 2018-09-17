@@ -81,7 +81,7 @@ def read_data_sets(data_path,
                   seed=None):
     
     with open(data_path,'rb') as f:
-        [data, labels, _, _]= pickle.load(f)
+        [data, labels, _,]= pickle.load(f)
     
     if not 0 <= test_size <= len(data):
         raise ValueError('Test size should be between 0 and {}. Received: {}.'
