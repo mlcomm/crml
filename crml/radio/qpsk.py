@@ -6,7 +6,8 @@ from gnuradio import analog
 from gnuradio import blocks
 from gnuradio.filter import firdes
 from gnuradio import filter
-
+import pickle
+    
 def qpsk_awgn_generator(dataset_size = 10000, 
                         vec_length = 128, 
                         EbN0 = -6):
@@ -71,3 +72,21 @@ def qpsk_awgn_generator(dataset_size = 10000,
     labels = np.vstack(labels)
     
     return data, labels, vec_indx
+
+def qpsk_awgn_dataset(dataset_size = 10000, 
+                        vec_length = 128, 
+                        EbN0 = -6):
+    filename = 'Dataset_QPSK_AWGN_Sz%s_Vec%s_EbN0%s' %(dataset_size, vec_length, EbN0)
+    
+    data, labels, vec_indx = qpsk_awgn_generator(dataset_size = dataset_size, 
+                                               vec_length = vec_length,
+                                                EbN0 = EbN0)
+    
+    assert vec_indx == dataset_size, (
+        'expected size: %s generated size: %s' %(dataset_size, vec_indx))
+    
+    pickle.dump([data, labels], file(filename, "wb") )
+    
+    print(filename + ' generated.')
+    
+    return filename
