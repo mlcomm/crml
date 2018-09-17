@@ -98,3 +98,20 @@ def read_data_sets(data_path,
     test = DataSet(test_data, test_labels, **options)
     
     return base.Datasets(train=train, validation = None, test=test)
+
+def load_data_sets(data_path,
+                  test_size=5000,
+                  seed=None):
+        with open(data_path,'rb') as f:
+        [data, labels, _,]= pickle.load(f)
+    
+    if not 0 <= test_size <= len(data):
+        raise ValueError('Test size should be between 0 and {}. Received: {}.'
+                     .format(len(data), test_size))
+        
+    train_data = data[0:test_size]
+    train_labels = labels[0:test_size]
+    test_data = data[test_size:]
+    test_labels = labels[test_size:]
+    
+    return train_data, train_labels, test_data, test_labels
